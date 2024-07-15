@@ -2,21 +2,23 @@ import streamlit as st
 import subprocess
 import pandas as pd
 import requests
+import asyncio
 
 # Définition des paramètres par défaut
 default_address = "Paris, France"
 default_poi_types = ["Monument"]
 default_radius = 50
 
+
 # Fonction pour récupérer la latitude et la longitude à partir de l'adresse
-def geocode(address):
+async def geocode(address):
     url = 'https://nominatim.openstreetmap.org/search'
     params = {
         'q': address,
         'format': 'json'
     }
     
-    response = requests.get(url, params=params)
+    response = await asyncio.to_thread(requests.get, url, params=params)
     
     if response.status_code == 200:
         data = response.json()
@@ -28,7 +30,7 @@ def geocode(address):
         else:
             return None
     else:
-        st.error(f"Erreur lors de la récupération des coordonnées pour '{address}'")
+        st.error(f"Erreur lors de la récupération des coordonnées '{address}', ERROR: '{response.status_code}'")
         return None
 
 # Fonction pour exécuter la requête et récupérer les résultats
@@ -49,6 +51,7 @@ def execute_query(latitude, longitude, poi_types, radius):
 def load_data():
     return pd.read_csv('clusters_data.csv')
 
+
 # Fonction principale pour l'onglet de paramètres de requête
 def main():
     st.title("Paramètres de la requête")
@@ -57,7 +60,7 @@ def main():
     address = st.text_input("Entrez une adresse :", default_address)
 
     # Récupérer les coordonnées à partir de l'adresse
-    coordinates = geocode(address)
+    coordinates = asyncio.run(geocode(address))
     if coordinates:
         latitude = coordinates['latitude']
         longitude = coordinates['longitude']
@@ -103,7 +106,8 @@ def main():
         else:
             st.warning("Adresse non valide. Veuillez entrer une adresse correcte.")
     
-    st.markdown('[Accéder à l\'application Dash](http://localhost:8050/)')
+    st.markdown('[Accéder à l\'application Dash](http://64.226.69.58:8050/)')
+
 
 if __name__ == "__main__":
     main()

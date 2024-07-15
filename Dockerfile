@@ -12,7 +12,8 @@ RUN pip install --no-cache-dir \
     openrouteservice \
     streamlit_folium \
     dash \
-    plotly
+    plotly \
+    asyncio
 
 COPY app/AfficherCarte.py .
 COPY app/Creation_Clusters.py .
