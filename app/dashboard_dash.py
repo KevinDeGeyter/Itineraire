@@ -24,12 +24,12 @@ def get_pois_and_clusters():
     return data
 
 # Récupérer les données
-data = get_pois_and_clusters()
+# data = get_pois_and_clusters()
 
 # Nettoyer les données
-data['latitude'] = pd.to_numeric(data['latitude'], errors='coerce')
-data['longitude'] = pd.to_numeric(data['longitude'], errors='coerce')
-data = data.dropna(subset=['latitude', 'longitude'])
+# data['latitude'] = pd.to_numeric(data['latitude'], errors='coerce')
+# data['longitude'] = pd.to_numeric(data['longitude'], errors='coerce')
+# data = data.dropna(subset=['latitude', 'longitude'])
 
 # Créer l'application Dash
 app = dash.Dash(__name__)
@@ -43,6 +43,14 @@ app.layout = html.Div([
     [Input('graph', 'id')]
 )
 def update_graph(_):
+    # Récupérer les données
+    data = get_pois_and_clusters()
+
+    # Nettoyer les données
+    data['latitude'] = pd.to_numeric(data['latitude'], errors='coerce')
+    data['longitude'] = pd.to_numeric(data['longitude'], errors='coerce')
+    data = data.dropna(subset=['latitude', 'longitude'])
+
     fig = px.scatter_mapbox(
         data, 
         lat='latitude', 
