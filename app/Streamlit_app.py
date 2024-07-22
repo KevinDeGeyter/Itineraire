@@ -39,7 +39,7 @@ def calculate_distance(point1, point2):
     return geodesic(point1, point2).kilometers
 
 # Définition des paramètres par défaut
-default_address = "Paris, France"
+default_address = "Lyon, France"
 default_poi_types = ["Monument"]
 default_radius = 50
 
