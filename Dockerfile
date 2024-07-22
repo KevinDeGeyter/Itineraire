@@ -19,8 +19,10 @@ COPY app/AfficherCarte.py .
 COPY app/Creation_Clusters.py .
 COPY app/Streamlit_app.py .
 COPY app/dashboard_dash.py .
-COPY app/tab_api.py .
-COPY app/tab_parametres.py .
+COPY app/clusters_data.csv .
+COPY app/clusters_map.html .
+COPY app/map.html .
+
 
 EXPOSE 8501 8050
 
