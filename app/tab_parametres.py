@@ -1,3 +1,4 @@
+import time
 import streamlit as st
 import subprocess
 import pandas as pd
@@ -38,9 +39,9 @@ def execute_query(latitude, longitude, poi_types, radius):
     poi_types_str = " ".join(poi_types)
     command = f"python3 Creation_Clusters.py --latitude {latitude} --longitude {longitude} --poi_types {poi_types_str} --radius {radius}"
 
-    st.spinner('Fetching data... Please wait.')
-    process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    stdout, stderr = process.communicate()
+    with st.spinner('Fetching data... Please wait.'):
+        process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        stdout, stderr = process.communicate()
 
     if process.returncode == 0:
         st.success('Done!')
